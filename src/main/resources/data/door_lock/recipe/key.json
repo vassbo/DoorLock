@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        "   ",
+        "T**",
+        "  *"
+    ],
+    "key": {
+        "T": { "item": "minecraft:tripwire_hook" },
+        "*": { "item": "minecraft:iron_nugget" }
+    },
+    "result": {
+        "id": "door_lock:key"
+    }
+}

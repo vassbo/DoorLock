@@ -1,0 +1,7 @@
+{
+    "door_lock.modname": "Door Lock",
+
+    "item.door_lock.key": "Key",
+    "item.door_lock.golden_key": "Golden Key",
+    "item.door_lock.universal_key": "Universal Key"
+}

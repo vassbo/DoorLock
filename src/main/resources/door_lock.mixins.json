@@ -1,0 +1,9 @@
+{
+    "required": true,
+    "package": "net.vassbo.door_lock.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": ["DoorBlockMixin"],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

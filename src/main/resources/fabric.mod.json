@@ -1,0 +1,36 @@
+{
+    "schemaVersion": 1,
+    "id": "door_lock",
+    "version": "${version}",
+    "name": "Door Lock",
+    "description": "A simple mod to lock doors, trapdoors & fence gates in Minecraft.",
+    "authors": ["Vassbo"],
+    "contact": {
+        "homepage": "https://github.com/vassbo/DoorLock",
+        "sources": "https://github.com/vassbo/DoorLock",
+        "issues": "https://github.com/vassbo/DoorLock/issues"
+    },
+    "license": "CC0-1.0",
+    "icon": "assets/door_lock/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": ["net.vassbo.door_lock.DoorLock"],
+        "client": ["net.vassbo.door_lock.DoorLockClient"]
+    },
+    "mixins": [
+        "door_lock.mixins.json",
+        {
+            "config": "door_lock.client.mixins.json",
+            "environment": "client"
+        }
+    ],
+    "depends": {
+        "fabricloader": ">=0.15.11",
+        "minecraft": "~1.21",
+        "java": ">=21",
+        "fabric-api": "*"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
+}
