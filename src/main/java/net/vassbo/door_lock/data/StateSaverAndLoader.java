@@ -75,12 +75,9 @@ public class StateSaverAndLoader extends PersistentState {
     //     // updateAllServerPlayers(server);
     // }
 
-    public static void setGlobalLearned(MinecraftServer server, List<String> learnedList) {
+    public static void setModData(MinecraftServer server, ModData data) {
         StateSaverAndLoader serverState = getServerState(server);
-        ModData globalData = serverState.storedData;
-
-        globalData.LOCKED_BLOCKS = learnedList;
-        serverState.storedData = globalData;
+        serverState.storedData = data;
 
         // updateAllServerPlayers(server);
     }

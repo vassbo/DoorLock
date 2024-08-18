@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import net.fabricmc.api.ModInitializer;
 import net.vassbo.door_lock.command.ModCommands;
 import net.vassbo.door_lock.config.ModConfig;
+import net.vassbo.door_lock.event.BlockBreakEvent;
 import net.vassbo.door_lock.event.JoinEvent;
 import net.vassbo.door_lock.item.ModItemGroups;
 import net.vassbo.door_lock.item.ModItems;
@@ -30,6 +31,7 @@ public class DoorLock implements ModInitializer {
 		DataReceiver.init();
 
         JoinEvent.init();
+        BlockBreakEvent.init();
 		
 		ModCommands.init();
 

@@ -3,5 +3,7 @@
 
     "item.door_lock.key": "Key",
     "item.door_lock.golden_key": "Golden Key",
-    "item.door_lock.universal_key": "Universal Key"
+    "item.door_lock.universal_key": "Universal Key",
+
+    "item_tooltip.door_lock.key": "Right click a door to lock/unlock!"
 }

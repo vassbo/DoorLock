@@ -1,4 +1,4 @@
-package net.vassbo.door_lock.helpers;
+package net.vassbo.door_lock.util;
 
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
