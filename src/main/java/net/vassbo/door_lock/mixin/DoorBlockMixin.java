@@ -34,6 +34,8 @@ public class DoorBlockMixin {
 	@Shadow @Final static BooleanProperty OPEN;
     @Shadow @Final private BlockSetType blockSetType;
 
+	// WIP custom textures when locked?!
+
     @Inject(at = @At("HEAD"), method = "onUse", cancellable = true)
 	private void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
 		// WIP client stop if locked!!

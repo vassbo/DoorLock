@@ -16,14 +16,5 @@ public class DoorHelper {
         }
         
         return bottomPos;
-
-		// BlockPos bottomPos = pos;
-
-		// String blockId = world.getBlockState(pos).getBlock().toString();
-        // BlockPos blockBelowPos = new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ());
-		// String blockBelowId = world.getBlockState(blockBelowPos).getBlock().toString();
-        
-        // if (blockId.contains("door") && blockBelowId.contains(blockId)) bottomPos = blockBelowPos;
-        // return bottomPos;
     }
 }

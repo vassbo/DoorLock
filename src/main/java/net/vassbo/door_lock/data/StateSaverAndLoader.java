@@ -16,14 +16,12 @@ public class StateSaverAndLoader extends PersistentState {
     public ModData storedData = new ModData();
 
     private static NbtCompound storeModData(NbtCompound nbt, ModData data) {
-        // if (data.NAME != "") nbt.putString("NAME", data.NAME);
         nbt = DataHelpers.storeList(nbt, "LOCKED_BLOCKS", data.LOCKED_BLOCKS);
 
         return nbt;
     }
 
     private static ModData getModData(NbtCompound nbt, ModData data) {
-        // data.NAME = nbt.getString("NAME");
         data.LOCKED_BLOCKS = DataHelpers.getList(nbt, "LOCKED_BLOCKS");
 
         return data;
@@ -63,30 +61,10 @@ public class StateSaverAndLoader extends PersistentState {
         return serverState.storedData;
     }
 
-    // CUSTOM VALUES
-
-    // public static void setModData(MinecraftServer server, int value) {
-    //     StateSaverAndLoader serverState = getServerState(server);
-    //     ModData data = serverState.storedData;
-
-    //     data.EMC = value;
-    //     serverState.storedData = data;
-
-    //     // updateAllServerPlayers(server);
-    // }
-
     public static void setModData(MinecraftServer server, ModData data) {
         StateSaverAndLoader serverState = getServerState(server);
         serverState.storedData = data;
-
-        // updateAllServerPlayers(server);
     }
-
-    // private static void updateAllServerPlayers(MinecraftServer server) {
-    //     for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-    //         EMCHelper.sendStateToClient((PlayerEntity)player);
-    //     }
-    // }
 
     // STATE MANAGER
 

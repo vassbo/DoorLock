@@ -20,14 +20,7 @@ public class AnvilScreenHandlerMixin {
 
     @Inject(at = @At("HEAD"), method = "onTakeOutput")
 	private void onTakeOutput(PlayerEntity player, ItemStack stack, CallbackInfo info) {
-        // player.sendMessage(Text.literal("TAKE: " +  stack.getName()));
-        // player.sendMessage(Text.literal("TAKE: " +  stack.isOf(ModItems.KEY_ITEM)));
-        // player.sendMessage(Text.literal("TAKE: " +  (stack.getItem() == ModItems.KEY_ITEM)));
         if (KeyPass.isKeyItem(stack)) {
-            // player.sendMessage(Text.literal("IS KEY!!"));
-            // this.input.setStack(0, ItemStack.EMPTY);
-            // return handStack;
-
             int passStartIndex = newItemName.lastIndexOf("#");
             if (passStartIndex >= 0) {
                 String password = newItemName.substring(passStartIndex + 1).trim();
@@ -38,4 +31,25 @@ public class AnvilScreenHandlerMixin {
             }
         }
     }
+
+    // WIP update actual output stack so shift clicking works
+    // @Inject(at = @At(value = "TAIL"), method = "updateResult")
+	// private void updateResult(CallbackInfo info, @Local(ordinal = 0) ItemStack itemStack) {
+    //     ItemStack stack = itemStack.copy();
+
+    //     if (KeyPass.isKeyItem(stack)) {
+    //         int passStartIndex = newItemName.lastIndexOf("#");
+    //         if (passStartIndex >= 0) {
+    //             String password = newItemName.substring(passStartIndex + 1).trim();
+    //             KeyItem.setPassData(stack, password);
+                
+    //             // newItemName = newItemName.substring(0, passStartIndex).trim();
+    //             // stack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(newItemName));
+
+    //             // NEED TO UPDATE OUTPUT
+	// 		    this.output.setStack(0, stack);
+    //             // this.sendContentUpdates();
+    //         }
+    //     }
+    // }
 }

@@ -36,5 +36,8 @@ public class DoorLock implements ModInitializer {
 		ModItems.init();
 
 		LOGGER.info("Door Lock ready!");
+
+		// TODO: add key manager block to manage many keys (chest with search)
+		// TODO: prevent villagers from opening locked doors?
 	}
 }

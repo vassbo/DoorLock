@@ -88,15 +88,6 @@ public class LockCheck {
         return null;
     }
 
-    // public static boolean isBlockLocked(World world, BlockPos pos, boolean isDoor) {
-    //     MinecraftServer server = world.getServer();
-        
-    //     ModData globalData = StateSaverAndLoader.getModData(server);
-    //     List<String> lockedBlocks = globalData.LOCKED_BLOCKS;
-
-    //     return getLockData(lockedBlocks, pos, isDoor) != null;
-    // }
-
     private static void addLockData(World world, LockData data) {
         MinecraftServer server = world.getServer();
         ModData globalData = StateSaverAndLoader.getModData(server);
@@ -125,15 +116,6 @@ public class LockCheck {
 
         StateSaverAndLoader.setModData(server, globalData);
     }
-
-    // private static void setLockData(World world, ModData data) {
-    //     MinecraftServer server = world.getServer();
-    //     ModData globalData = StateSaverAndLoader.getModData(server);
-
-    //     globalData.LOCKED_BLOCKS = data.LOCKED_BLOCKS;
-
-    //     StateSaverAndLoader.setModData(server, globalData);
-    // }
 
     // FORMAT: x,y,z_keyHash
     public static @Nullable LockData getLockData(World world, BlockPos pos) {
@@ -183,27 +165,4 @@ public class LockCheck {
 
         return data;
     }
-
-    // public static void sendMessageToClient(PlayerEntity player, String message) {
-    //     ModData playerState = StateSaverAndLoader.getPlayerState(player);
-    //     playerState.MESSAGE = message;
-    //     DataSender.sendPlayerData(player, playerState);
-
-    //     String playerId = player.getUuid().toString();
-    //     if (!TIMEOUT_IDs.containsKey(playerId)) TIMEOUT_IDs.put(playerId, 0);
-    //     int currentId = TIMEOUT_IDs.get(playerId) + 1;
-    //     TIMEOUT_IDs.put(playerId, currentId);
-
-    //     // timeout message
-    //     new Thread(() -> {
-    //         wait(1200);
-
-    //         // another message was sent before this could clear!
-    //         if (TIMEOUT_IDs.get(playerId) != currentId) return;
-
-    //         ModData playerStateNew = StateSaverAndLoader.getPlayerState(player);
-    //         playerStateNew.MESSAGE = "";
-    //         DataSender.sendPlayerData(player, playerStateNew);
-    //     }).start();
-    // }
 }
