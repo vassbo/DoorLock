@@ -5,5 +5,15 @@
     "item.door_lock.golden_key": "Golden Key",
     "item.door_lock.universal_key": "Universal Key",
 
-    "item_tooltip.door_lock.key": "Right click a door to lock/unlock!"
+    "item_tooltip.door_lock.key": "Use on a door etc. to lock/unlock!",
+    "item_tooltip.door_lock.univeral_key": "Use on any locked block to unlock!",
+
+    "open.locked": "Locked!",
+    "key_use.incorrect": "Incorrect key",
+    "key_set.added": "Key added",
+    "key_set.no_password": "This key needs a password",
+    "key_use.no_password": "Incorrect key with no password",
+    "key_use.wrong_type": "Can't use this key type here",
+    "key_remove.success": "Lock removed",
+    "break.remove_lock": "Lock removed because block was broken"
 }

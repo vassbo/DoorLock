@@ -12,9 +12,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.entity.Entity;
+import net.minecraft.block.TrapdoorBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.property.BooleanProperty;
@@ -25,22 +25,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.vassbo.door_lock.config.ModConfig;
-import net.vassbo.door_lock.util.DoorHelper;
 import net.vassbo.door_lock.util.KeyPass;
 import net.vassbo.door_lock.util.LockCheck;
 
-@Mixin(DoorBlock.class)
-public class DoorBlockMixin {
+@Mixin(TrapdoorBlock.class)
+public class TrapdoorBlockMixin {
 	@Shadow @Final static BooleanProperty OPEN;
     @Shadow @Final private BlockSetType blockSetType;
+	@Shadow @Final private static BooleanProperty WATERLOGGED;
 
     @Inject(at = @At("HEAD"), method = "onUse", cancellable = true)
 	private void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
-		// WIP client stop if locked!!
-		// if (world.isClient()) cir.setReturnValue(ActionResult.PASS);
-
 		@Nullable ItemStack keyStack = LockCheck.getKeyHandItem(player);
-		// if (keyStack == null && world.isClient()) return;
 
 		if (world.isClient() && !this.blockSetType.canOpenByHand()) {
 			if (keyStack == null) {
@@ -48,7 +44,7 @@ public class DoorBlockMixin {
 				return;
 			}
 			
-			// skip if clicking e.g. iron door & item in hand is not a key (universal should not work for iron types by default)
+			// skip if clicking e.g. iron door & item in hand is not a key
 			if (!KeyPass.isKeyItem(keyStack, false)) {
 				if (KeyPass.isKeyItem(keyStack)) {
 					player.sendMessage(Text.translatable("key_use.wrong_type"), true);
@@ -59,38 +55,43 @@ public class DoorBlockMixin {
 			}
 		}
 
-        if (!world.isClient() && !LockCheck.canOpen(world, DoorHelper.getBottomHalf(world, pos), player)) {
+        if (!world.isClient() && !LockCheck.canOpen(world, pos, player)) {
 			// cir.setReturnValue(ActionResult.success(false));
 			cir.setReturnValue(ActionResult.PASS);
 		} else {
 			// open iron doors etc. (only iron/golden key!)
-			// keyStack.isOf(ModItems.UNIVERSAL_KEY_ITEM) || 
 			if (keyStack != null && (KeyPass.isKeyItem(keyStack, false))) {
-				state = state.cycle(OPEN);
-				world.setBlockState(pos, state, Block.NOTIFY_LISTENERS | Block.REDRAW_ON_MAIN_THREAD);
-				this.playOpenCloseSound(player, world, pos, (Boolean)state.get(OPEN));
-				world.emitGameEvent(player, this.isOpen(state) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+				this.flip(state, world, pos, null);
 				cir.setReturnValue(ActionResult.success(world.isClient));
 			}
 		}
-
-		// @Nullable ActionResult returnValue = BlockChecker.checkBlock(state, world, pos, player);
-		// if (returnValue != null) cir.setReturnValue(returnValue);
-	}
-	
-	public boolean isOpen(BlockState state) {
-		return (Boolean)state.get(OPEN);
 	}
 
-	private void playOpenCloseSound(@Nullable Entity entity, World world, BlockPos pos, boolean open) {
+	private void flip(BlockState state, World world, BlockPos pos, @Nullable PlayerEntity player) {
+		BlockState blockState = state.cycle(OPEN);
+		world.setBlockState(pos, blockState, Block.NOTIFY_LISTENERS);
+		if ((Boolean)blockState.get(WATERLOGGED)) {
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
+
+		this.playToggleSound(player, world, pos, (Boolean)blockState.get(OPEN));
+	}
+
+	public void playToggleSound(@Nullable PlayerEntity player, World world, BlockPos pos, boolean open) {
 		world.playSound(
-			entity, pos, open ? this.blockSetType.doorOpen() : this.blockSetType.doorClose(), SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F
+			player,
+			pos,
+			open ? this.blockSetType.trapdoorOpen() : this.blockSetType.trapdoorClose(),
+			SoundCategory.BLOCKS,
+			1.0F,
+			world.getRandom().nextFloat() * 0.1F + 0.9F
 		);
+		world.emitGameEvent(player, open ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
 	}
 
     @Inject(at = @At("HEAD"), method = "neighborUpdate", cancellable = true)
 	private void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify, CallbackInfo info) {
-		if (ModConfig.DISABLE_REDSTONE_WHEN_LOCKED && !world.isClient() && !LockCheck.canOpen(world, DoorHelper.getBottomHalf(world, pos))) {
+		if (ModConfig.DISABLE_REDSTONE_WHEN_LOCKED && !world.isClient() && !LockCheck.canOpen(world, pos)) {
 			info.cancel();
 		}
 	}

@@ -7,11 +7,10 @@ public class ModConfig {
     public static SimpleConfig CONFIG;
     protected static ModConfigProvider configs;
 
-    public static boolean EMC_ON_HUD;
-    public static boolean PRIVATE_EMC;
-    public static boolean CREATIVE_ITEMS;
-    public static String DIFFICULTY;
-    public static String MODE;
+    public static boolean DISABLE_REDSTONE_WHEN_LOCKED;
+    public static boolean DISABLE_BLOCK_BREAK_WHEN_LOCKED;
+    public static boolean UNIVERSAL_KEY_ON_IRON_TYPE;
+    public static boolean SHOW_PASSWORD_ON_KEY;
 
     public static void init() {
         configs = new ModConfigProvider();
@@ -29,10 +28,9 @@ public class ModConfig {
     }
 
     private static void assignConfigs() {
-        EMC_ON_HUD = CONFIG.getOrDefault("emc_on_hud", false);
-        PRIVATE_EMC = CONFIG.getOrDefault("private_emc", false);
-        CREATIVE_ITEMS = CONFIG.getOrDefault("creative_items", false);
-        DIFFICULTY = CONFIG.getOrDefault("difficulty", "hard");
-        MODE = CONFIG.getOrDefault("mode", "default");
+        DISABLE_BLOCK_BREAK_WHEN_LOCKED = CONFIG.getOrDefault("disable_block_break_when_locked", false);
+        DISABLE_REDSTONE_WHEN_LOCKED = CONFIG.getOrDefault("disable_redstone_when_locked", true);
+        UNIVERSAL_KEY_ON_IRON_TYPE = CONFIG.getOrDefault("universal_unlocks_iron", false);
+        SHOW_PASSWORD_ON_KEY = CONFIG.getOrDefault("show_password_on_key", true);
     }
 }

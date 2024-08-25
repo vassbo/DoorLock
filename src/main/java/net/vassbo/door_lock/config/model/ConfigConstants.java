@@ -1,32 +1,25 @@
 package net.vassbo.door_lock.config.model;
 
 public enum ConfigConstants {
-    EMC_ON_HUD(
-        new ConfigEntry<>("emc_on_hud", false),
-        "Display current EMC on HUD (top left corner)"
+    DISABLE_BLOCK_BREAK_WHEN_LOCKED(
+        new ConfigEntry<>("disable_block_break_when_locked", false),
+        "Stop block break event if block is locked."
     ),
 
-    PRIVATE_EMC(
-        new ConfigEntry<>("private_emc", false),
-        "Should each player have their own EMC storage?"
-        //todo maybe? ...
-        // + "Note: Turning this on will disable redstone integration."
+    DISABLE_REDSTONE_WHEN_LOCKED(
+        new ConfigEntry<>("disable_redstone_when_locked", true),
+        "Stop redstone inputs from interacting with a locked block."
     ),
 
-    CREATIVE_ITEMS(
-        new ConfigEntry<>("creative_items", false),
-        "Should creative items have EMC?"
+    UNIVERSAL_KEY_ON_IRON_TYPE(
+        new ConfigEntry<>("universal_unlocks_iron", false),
+        "Use universal key to unlock iron types."
     ),
 
-    DIFFICULTY(
-        new ConfigEntry<>("difficulty", "hard"),
-        "easy | normal | hard - Changes crafting recipe for Dissolver block."
-    ),
-
-    MODE(
-        new ConfigEntry<>("mode", "default"),
-        "default | skyblock - Changes some EMC values."
-    );
+    SHOW_PASSWORD_ON_KEY(
+        new ConfigEntry<>("show_password_on_key", true),
+        "Show key password in item tooltip."
+    )
 
     ;
 

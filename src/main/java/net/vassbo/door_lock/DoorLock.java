@@ -7,11 +7,8 @@ import net.fabricmc.api.ModInitializer;
 import net.vassbo.door_lock.command.ModCommands;
 import net.vassbo.door_lock.config.ModConfig;
 import net.vassbo.door_lock.event.BlockBreakEvent;
-import net.vassbo.door_lock.event.JoinEvent;
 import net.vassbo.door_lock.item.ModItemGroups;
 import net.vassbo.door_lock.item.ModItems;
-import net.vassbo.door_lock.packets.DataReceiver;
-import net.vassbo.door_lock.packets.Packets;
 
 public class DoorLock implements ModInitializer {
 	public static final String MOD_ID = "door_lock";
@@ -20,17 +17,17 @@ public class DoorLock implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		// Please use this code as inspiration for your projects! :)
-		// For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.
-		// John 3:16
+		// Trust in the LORD with all your heart, and do not lean on your own understanding.
+		// In all your ways acknowledge Him, and He will make straight your paths.
+		// Proverbs 3:5–6
 
 		LOGGER.info("Initializing Door Lock!");
 
 		ModConfig.init();
 
-		Packets.init();
-		DataReceiver.init();
+		// Packets.init();
+		// DataReceiver.init();
 
-        JoinEvent.init();
         BlockBreakEvent.init();
 		
 		ModCommands.init();

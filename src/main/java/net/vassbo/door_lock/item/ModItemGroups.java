@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 import net.vassbo.door_lock.DoorLock;
 
 public class ModItemGroups {
-    private static Item MOD_GROUP_ICON_ITEM = ModItems.KEY_ITEM;
+    private static Item MOD_GROUP_ICON_ITEM = ModItems.GOLDEN_KEY_ITEM;
     public static final ItemGroup door_lock_GROUP = registerItemGroup("door_lock_group", "door_lock.modname", MOD_GROUP_ICON_ITEM, ModItemGroups::addToCustomInventory);
 
     private static void addToCustomInventory(DisplayContext displayContext, Entries entries) {

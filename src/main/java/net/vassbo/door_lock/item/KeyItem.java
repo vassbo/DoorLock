@@ -17,9 +17,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.vassbo.door_lock.DoorLock;
+import net.vassbo.door_lock.config.ModConfig;
+import net.vassbo.door_lock.util.DoorHelper;
 import net.vassbo.door_lock.util.KeyPass;
 import net.vassbo.door_lock.util.LockCheck;
 import net.vassbo.door_lock.util.LockData;
@@ -36,23 +36,28 @@ public class KeyItem extends Item {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable(TOOLTIP_TEXT).formatted(TOOLTIP_FORMAT));
 
-        // WIP HOLD shift to show password!
+        @Nullable String password = getPassData(stack);
+        if (password == null || !ModConfig.SHOW_PASSWORD_ON_KEY) return;
+
+        // WIP shift to reveal (only client)
+        // if (Screen.hasShiftDown()) {
+            tooltip.add(Text.literal(password).formatted(Formatting.AQUA));
+        // } else {
+        //     tooltip.add(Text.translatable("Hold shift to reveal password").formatted(Formatting.GRAY));
+        // }
     }
 
     @Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-        // WIP SHIFT RIGHT CLICK TO REMOVE!
-        DoorLock.LOGGER.info("useOnBlock");
         PlayerEntity player = context.getPlayer();
-        // just for sneak click to remove
+        // remove key with sneak (shift) click
         if (player.getServer() != null && player.isSneaking()) {
-            DoorLock.LOGGER.info("HERE");
             World world = context.getWorld();
-            Vec3d vecPos = context.getHitPos();
-            BlockPos pos = new BlockPos((int)vecPos.x, (int)vecPos.y, (int)vecPos.z);
+            BlockPos pos = context.getBlockPos();
+            BlockPos fixedPos = DoorHelper.getBottomHalf(world, pos);
             
             // block lock data
-            @Nullable LockData lockData = LockCheck.getLockData(world, pos);
+            @Nullable LockData lockData = LockCheck.getLockData(world, fixedPos);
 
             // get key in hands
             // this will not check the second key if holding two!
@@ -60,49 +65,24 @@ public class KeyItem extends Item {
 
             boolean hasLock = lockData != null;
             if (hasLock) {
-                DoorLock.LOGGER.info("HAS LOCK");
                 if (keyStack.isOf(ModItems.UNIVERSAL_KEY_ITEM)) {
-                    DoorLock.LOGGER.info("SHIFT REMVOE!: " + lockData.toString());
+                    // WIP currently also removing key on iron types
                     LockCheck.removeLockData(world, lockData);
-                    player.sendMessage(Text.literal("Lock removed!!!"), true);
+                    player.sendMessage(Text.translatable("key_remove.success"), true);
                     return ActionResult.PASS;
                 }
 
                 @Nullable String keyPass = KeyItem.getPassData(keyStack);
                 boolean isCorrectKey = KeyPass.checkHashMatch(keyPass, lockData.keyHash);
                 if (isCorrectKey) {
-                    DoorLock.LOGGER.info("SHIFT REMVOE!: " + lockData.toString());
                     LockCheck.removeLockData(world, lockData);
-                    player.sendMessage(Text.literal("Lock removed!!!"), true);
+                    player.sendMessage(Text.translatable("key_remove.success"), true);
                 }
             }
         }
 
 		return ActionResult.PASS;
 	}
-
-    // @Override
-	// public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-    //     DoorLock.LOGGER.info("USE");
-    //     return super.use(world, user, hand);
-	// }
-
-    // @Override
-	// public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-    //     DoorLock.LOGGER.info("onClicked");
-	// 	return false;
-	// }
-
-    // @Override
-	// public UseAction getUseAction(ItemStack stack) {
-    //     DoorLock.LOGGER.info("getUseAction");
-	// 	return stack.contains(DataComponentTypes.FOOD) ? UseAction.EAT : UseAction.NONE;
-	// }
-    
-    // @Override
-	// public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-    //     DoorLock.LOGGER.info("usageTick");
-	// }
     
     // NBT DATA
 

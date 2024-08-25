@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "door_lock:item/key"
+        "layer0": "door_lock:item/golden_key"
     }
 }

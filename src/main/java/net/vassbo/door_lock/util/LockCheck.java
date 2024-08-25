@@ -10,7 +10,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.vassbo.door_lock.DoorLock;
 import net.vassbo.door_lock.data.ModData;
 import net.vassbo.door_lock.data.StateSaverAndLoader;
 import net.vassbo.door_lock.item.KeyItem;
@@ -25,10 +24,6 @@ public class LockCheck {
     }
 
     public static boolean canOpen(World world, BlockPos pos, @Nullable PlayerEntity player) {
-        // player.sendMessage(Text.literal("USE DOOR!!!: " + pos.toString()));
-
-        // WIP remove data on block break / prevent breaking (option)
-
         // block lock data
         @Nullable LockData lockData = getLockData(world, pos);
 
@@ -39,19 +34,18 @@ public class LockCheck {
         boolean hasLock = lockData != null;
         if (hasLock) {
             if (keyStack == null) {
-                player.sendMessage(Text.literal("Locked!!!"), true);
+                player.sendMessage(Text.translatable("open.locked"), true);
                 return false;
             }
 
             // universal key can open everything!
             if (keyStack.isOf(ModItems.UNIVERSAL_KEY_ITEM)) {
-                // WIP shift remove!!!
                 return true;
             }
 
             @Nullable String keyPass = KeyItem.getPassData(keyStack);
             if (keyPass == null) {
-                player.sendMessage(Text.literal("No key password!!!"), true);
+                player.sendMessage(Text.translatable("key_use.no_password"), true);
                 return false;
             }
 
@@ -59,17 +53,9 @@ public class LockCheck {
             // boolean isCorrectKey = KeyItem.checkForHash(keyStack, lockData.keyHash);
 
             if (!isCorrectKey) {
-                player.sendMessage(Text.literal("Incorrect key!!!"), true);
+                player.sendMessage(Text.translatable("key_use.incorrect"), true);
                 return false;
             }
-
-            // remove lock if correct key & sneaking
-            // if (player.isSneaking() && isCorrectKey) {
-            //     DoorLock.LOGGER.info("SHIFT REMVOE!: " + lockData.toString());
-            //     removeLockData(world, lockData);
-            //     player.sendMessage(Text.literal("Lock removed!!!"), true);
-            //     return false;
-            // }
 
             // open door with key
             return true;
@@ -80,18 +66,17 @@ public class LockCheck {
 
         String keyPass = KeyItem.getPassData(keyStack);
         if (keyPass == null) {
-            player.sendMessage(Text.literal("Key does not have any password!!!"), true);
+            player.sendMessage(Text.translatable("key_set.no_password"), true);
             return false;
         }
 
         // add key to block data
         LockData blockLockData = new LockData();
         blockLockData.pos = pos;
-        // WIP: always add to bottom block if door!!!!
         blockLockData.keyHash = KeyPass.getKeyHash(keyPass);
         addLockData(world, blockLockData);
         
-        player.sendMessage(Text.literal("Key added!!!"), true);
+        player.sendMessage(Text.translatable("key_set.added"), true);
         return false;
     }
 
@@ -134,12 +119,8 @@ public class LockCheck {
 
         // LOCKED_BLOCKS
         List<String> lockedBlocks = globalData.LOCKED_BLOCKS;
-        DoorLock.LOGGER.info("LCOKED!: " + lockedBlocks.size());
         String dataString = convertDataToString(data);
-        DoorLock.LOGGER.info("str!: " + dataString);
-        DoorLock.LOGGER.info("str2!: " + lockedBlocks.contains(dataString));
         lockedBlocks.remove(dataString);
-        DoorLock.LOGGER.info("LOCKED!: " + lockedBlocks.size());
         globalData.LOCKED_BLOCKS = lockedBlocks;
 
         StateSaverAndLoader.setModData(server, globalData);

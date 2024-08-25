@@ -20,7 +20,6 @@ public class AnvilScreenHandlerMixin {
 
     @Inject(at = @At("HEAD"), method = "onTakeOutput")
 	private void onTakeOutput(PlayerEntity player, ItemStack stack, CallbackInfo info) {
-        player.sendMessage(Text.literal("TAKE: " +  newItemName));
         // player.sendMessage(Text.literal("TAKE: " +  stack.getName()));
         // player.sendMessage(Text.literal("TAKE: " +  stack.isOf(ModItems.KEY_ITEM)));
         // player.sendMessage(Text.literal("TAKE: " +  (stack.getItem() == ModItems.KEY_ITEM)));
@@ -32,7 +31,6 @@ public class AnvilScreenHandlerMixin {
             int passStartIndex = newItemName.lastIndexOf("#");
             if (passStartIndex >= 0) {
                 String password = newItemName.substring(passStartIndex + 1).trim();
-                player.sendMessage(Text.literal("PASS: " + password));
                 KeyItem.setPassData(stack, password);
                 
                 newItemName = newItemName.substring(0, passStartIndex).trim();

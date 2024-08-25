@@ -2,7 +2,7 @@
     "required": true,
     "package": "net.vassbo.door_lock.mixin",
     "compatibilityLevel": "JAVA_21",
-    "mixins": ["DoorBlockMixin", "AnvilScreenHandlerMixin"],
+    "mixins": ["AnvilScreenHandlerMixin", "DoorBlockMixin", "TrapdoorBlockMixin", "FenceGateBlockMixin", "ChestBlockMixin"],
     "injectors": {
         "defaultRequire": 1
     }
