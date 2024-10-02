@@ -41,7 +41,7 @@ public class KeyItem extends Item {
 
         // WIP shift to reveal (only client)
         // if (Screen.hasShiftDown()) {
-            tooltip.add(Text.literal(password).formatted(Formatting.AQUA));
+            tooltip.add(Text.literal(password).formatted(Formatting.GREEN));
         // } else {
         //     tooltip.add(Text.translatable("Hold shift to reveal password").formatted(Formatting.GRAY));
         // }
@@ -126,7 +126,20 @@ public class KeyItem extends Item {
     }
 
     public static @Nullable String getPassData(ItemStack stack) {
-        return getData(stack);
+        @Nullable String data = getData(stack);
+
+        if (data == null) {
+            // get password in name (because shift clicking out the key will not update the nbt)
+            // this apparently sets the password preview in anvil screen & keys with just #pass in name
+            String itemName = stack.getName().getString();
+            int passStartIndex = itemName.lastIndexOf("#");
+            if (passStartIndex >= 0) {
+                String password = itemName.substring(passStartIndex + 1).trim();
+                if (password.length() > 0) data = password;
+            }
+        }
+
+        return data;
     }
 
     // public static boolean checkForHash(ItemStack stack, String pwdHash) {

@@ -15,5 +15,9 @@
     "key_use.no_password": "Incorrect key with no password",
     "key_use.wrong_type": "Can't use this key type here",
     "key_remove.success": "Lock removed",
-    "break.remove_lock": "Lock removed because block was broken"
+    "break.remove_lock": "Lock removed because block was broken",
+
+    "command.update_password": "Set password %d on key in main hand!",
+    "command.update_password.error": "No key in main hand!",
+    "command.give_keys": "Gave user %d key(s)!"
 }

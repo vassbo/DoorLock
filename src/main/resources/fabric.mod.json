@@ -3,7 +3,7 @@
     "id": "door_lock",
     "version": "${version}",
     "name": "Door Lock",
-    "description": "A simple mod to lock doors, trapdoors & fence gates in Minecraft.",
+    "description": "A simple Minecraft Fabric mod to lock doors, trapdoors, fence gates & chests.",
     "authors": ["Vassbo"],
     "contact": {
         "homepage": "https://github.com/vassbo/DoorLock",

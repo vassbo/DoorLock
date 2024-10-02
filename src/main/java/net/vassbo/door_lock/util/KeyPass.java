@@ -13,7 +13,7 @@ public class KeyPass {
     }
 
     public static boolean checkHashMatch(String password, String passHash) {
-        return getKeyHash(password).contains(passHash);
+        return getKeyHash(password).equals(passHash);
     }
 
     public static boolean isKeyItem(ItemStack stack) {
