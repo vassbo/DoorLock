@@ -39,6 +39,5 @@ public class DoorLock implements ModInitializer {
 
 		// TODO: add key manager block to manage many keys (chest with search)
 		// TODO: prevent villagers from opening locked doors?
-		// TODO: lock shulker boxes
 	}
 }
